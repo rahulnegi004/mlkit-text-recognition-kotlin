@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.opengl.Visibility
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -37,6 +38,14 @@ class MainActivity : AppCompatActivity(), MainActivityPresenter.View{
 
     override fun hideProgress() {
         progressBar.visibility = View.GONE
+    }
+
+    override fun hideImageTextView() {
+        imageView.visibility = View.GONE
+    }
+
+    override fun showImageTextView() {
+        imageView.visibility = View.VISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

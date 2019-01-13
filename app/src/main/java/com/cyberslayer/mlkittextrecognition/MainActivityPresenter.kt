@@ -7,6 +7,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionText
 class MainActivityPresenter(val view: View) {
 
     fun runTextRecognition(selectedImage: Bitmap) {
+        view.showImageTextView()
         view.showProgress()
         val image = FirebaseVisionImage.fromBitmap(selectedImage)
         val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
@@ -22,20 +23,14 @@ class MainActivityPresenter(val view: View) {
 
     private fun processTextRecognitionResult(texts: FirebaseVisionText) {
         view.hideProgress()
+        view.hideImageTextView()
         val blocks = texts.textBlocks
         if (blocks.size == 0) {
+            view.showImageTextView()
             view.showNoTextMessage()
             return
         }
-        var dateText = ""
-        blocks.forEach { block ->
-            block.lines.forEach { line ->
-                line.elements.forEach { element ->
-                    dateText += "\n"+ element.text
-                }
-            }
-        }
-        view.showText(dateText)
+        view.showText(texts.text)
     }
 
     interface View {
@@ -43,5 +38,7 @@ class MainActivityPresenter(val view: View) {
         fun showText(text: String)
         fun showProgress()
         fun hideProgress()
+        fun hideImageTextView()
+        fun showImageTextView()
     }
 }
